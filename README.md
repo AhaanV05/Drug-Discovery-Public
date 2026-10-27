@@ -153,3 +153,7 @@ Copy `.env.example` to `.env` and fill in:
 | `SUPABASE_DATABASE` | Only if using DB | Default: postgres |
 | `SUPABASE_USER` | Only if using DB | Database user |
 | `SUPABASE_PASSWORD` | Only if using DB | Database password |
+
+## License
+
+MIT License
