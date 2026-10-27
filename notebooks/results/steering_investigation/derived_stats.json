@@ -1,0 +1,116 @@
+{
+  "provenance": {
+    "seed": 42,
+    "sampler": {
+      "cfg": 1.0,
+      "temperature": 0.4,
+      "noise": 0.0,
+      "steps": 50
+    },
+    "targets": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "qed_prior_mean": 0.6573865803033617,
+    "qed_prior_std": 0.1667400499636428,
+    "n_per_target": 256
+  },
+  "sec1_phenomenon": {
+    "QED-only": {
+      "spread_meanQED": 0.2313237366481329,
+      "slope_meanQED_vs_target": 0.34291641614038665,
+      "corr_target_qed_permol": 0.4411044273344241,
+      "achieved_at_0.9": 0.4633448654621232,
+      "achieved_at_0.3": 0.27001866267846764
+    },
+    "Multi-prop": {
+      "spread_meanQED": 0.12804826834529048,
+      "slope_meanQED_vs_target": -0.03282082719257273,
+      "corr_target_qed_permol": -0.041737496837130426,
+      "achieved_at_0.9": 0.36336646150918384,
+      "achieved_at_0.3": 0.41179403572812395
+    }
+  },
+  "sec2_prior_regression": {
+    "QED-only": {
+      "cohend_0.9_vs_0.3": 1.169718543836052,
+      "gen_overall_mean_qed": 0.35741388864408624,
+      "shift_per_0.1_target": 0.034291641614038665
+    },
+    "Multi-prop": {
+      "cohend_0.9_vs_0.3": -0.39215219801438084,
+      "gen_overall_mean_qed": 0.44234050211578824,
+      "shift_per_0.1_target": -0.0032820827192572735
+    }
+  },
+  "sec3_size_proxy": {
+    "QED-only": {
+      "corr_target_qed": 0.4411044273344247,
+      "corr_ha_qed": -0.5378184790506556,
+      "corr_target_ha": -0.38215754745525654,
+      "partial_corr_target_qed_given_ha": 0.30237724496223367,
+      "beta_target_alone": 0.3429164161403874,
+      "beta_target_given_ha": 0.2144554777981978,
+      "frac_mediated_by_size": 0.3746129735871224,
+      "net_effect_meaningful": true
+    },
+    "Multi-prop": {
+      "corr_target_qed": -0.04173749683713044,
+      "corr_ha_qed": 0.19012774138087649,
+      "corr_target_ha": -0.6729902897281047,
+      "partial_corr_target_qed_given_ha": 0.11872958301604465,
+      "beta_target_alone": -0.0328208271925733,
+      "beta_target_given_ha": 0.12392532942575693,
+      "frac_mediated_by_size": null,
+      "net_effect_meaningful": false
+    }
+  },
+  "sec4_components": {
+    "available": true,
+    "parse_rate": 1.0,
+    "n_parsed": 3584,
+    "corr_component_vs_target": {
+      "QED-only": {
+        "MW": -0.4007613572153629,
+        "ALOGP": 0.47780592114047005,
+        "HBA": -0.749677680427302,
+        "HBD": -0.24100972301697082,
+        "PSA": -0.7114660332988616,
+        "ROTB": -0.12124673942480216,
+        "AROM": 0.41451362982924217,
+        "ALERTS": -0.5505359038322255
+      },
+      "Multi-prop": {
+        "MW": -0.6647411586859281,
+        "ALOGP": -0.5855323339803152,
+        "HBA": -0.5024693279758027,
+        "HBD": 0.15252780757225917,
+        "PSA": -0.38414359626830646,
+        "ROTB": -0.3160799657871625,
+        "AROM": -0.5062483406886251,
+        "ALERTS": -0.3980904601087857
+      }
+    }
+  },
+  "sec5_capacity": {
+    "QED-only": {
+      "bestN_pool_top": 0.8872853106642211,
+      "bestN_top50_median": 0.7457208839292591,
+      "native_mean_at_0.9": 0.4633448654621232,
+      "native_max_at_0.9": 0.8821842100903086,
+      "control_gap_top_minus_native": 0.4239404452020979
+    },
+    "Multi-prop": {
+      "bestN_pool_top": 0.8672985970593666,
+      "bestN_top50_median": 0.3708101882433593,
+      "native_mean_at_0.9": 0.36336646150918384,
+      "native_max_at_0.9": 0.8140706820790545,
+      "control_gap_top_minus_native": 0.5039321355501828
+    }
+  }
+}

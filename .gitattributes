@@ -1,0 +1,2 @@
+notebooks/data/molecules_200k_with_bioactivity_21pct_coverage.csv filter=lfs diff=lfs merge=lfs -text
+notebooks/data/molecules_200k_selfies_clean.csv filter=lfs diff=lfs merge=lfs -text

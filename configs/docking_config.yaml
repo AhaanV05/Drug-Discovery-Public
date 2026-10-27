@@ -1,0 +1,128 @@
+# Molecular Docking Configuration
+
+# Protein targets
+targets:
+  egfr:
+    name: "EGFR Wild-type"
+    pdb_id: "1M17"
+    pdb_file: "data/proteins/1M17.pdb"
+    receptor_pdbqt: "data/proteins/1M17_receptor.pdbqt"
+    
+    # Binding site configuration
+    binding_site:
+      center_x: 30.0
+      center_y: 40.0
+      center_z: 50.0
+      size_x: 20.0
+      size_y: 20.0
+      size_z: 20.0
+    
+    # Known inhibitor for reference
+    reference_inhibitor: "Erlotinib"
+    reference_docking_score: -9.5  # kcal/mol
+  
+  egfr_t790m:
+    name: "EGFR T790M Mutant"
+    pdb_id: "3W2O"
+    pdb_file: "data/proteins/3W2O.pdb"
+    receptor_pdbqt: "data/proteins/3W2O_receptor.pdbqt"
+    
+    binding_site:
+      center_x: 28.0
+      center_y: 42.0
+      center_z: 48.0
+      size_x: 20.0
+      size_y: 20.0
+      size_z: 20.0
+    
+    reference_inhibitor: "Osimertinib"
+    reference_docking_score: -10.2  # kcal/mol
+
+# AutoDock Vina settings
+vina:
+  exhaustiveness: 8  # Search exhaustiveness (8 is default, higher = slower but more thorough)
+  num_modes: 9  # Number of binding modes to generate
+  energy_range: 3  # Maximum energy difference between modes (kcal/mol)
+  seed: 42  # Random seed for reproducibility
+  cpu: 8  # Number of CPUs to use
+  
+# Ligand preparation
+ligand_prep:
+  # SMILES to 3D conversion
+  use_rdkit_embed: true
+  force_field: "UFF"  # Universal Force Field
+  num_conformers: 10
+  optimize_conformers: true
+  
+  # Charge calculation
+  charge_method: "gasteiger"  # or "mmff94"
+  
+  # Output format
+  output_format: "pdbqt"
+
+# Filtering criteria
+filtering:
+  # Pre-docking filters
+  pre_filters:
+    min_mw: 150
+    max_mw: 500
+    max_rotatable_bonds: 10
+    passes_lipinski: true
+    no_pains: true
+    no_brenk: true
+  
+  # Post-docking filters
+  post_filters:
+    max_docking_score: -7.0  # kcal/mol (more negative = better)
+    min_ligand_efficiency: 0.3  # kcal/mol per heavy atom
+    require_key_interactions: false  # Set to true to filter by specific interactions
+
+# Batch processing
+batch:
+  batch_size: 100  # Molecules per batch
+  num_parallel: 8  # Parallel docking jobs
+  timeout: 300  # Seconds per molecule
+  retry_failed: true
+  max_retries: 2
+
+# Output
+output:
+  results_dir: "results/docking/"
+  save_poses: true  # Save 3D poses (PDBQT files)
+  save_logs: true  # Save Vina logs
+  save_summary_csv: true
+  save_top_n: 500  # Number of top-scoring molecules to save detailed results
+  
+  # Visualization
+  generate_images: false  # Generate 2D structure images
+  generate_pymol_sessions: false  # Generate PyMOL visualization sessions
+
+# Protein-ligand interaction analysis (ProLIF)
+prolif:
+  enabled: true
+  interaction_types:
+    - "HBDonor"  # Hydrogen bond donor
+    - "HBAcceptor"  # Hydrogen bond acceptor
+    - "Hydrophobic"  # Hydrophobic contact
+    - "PiStacking"  # π-π stacking
+    - "PiCation"  # π-cation interaction
+    - "CationPi"  # Cation-π interaction
+    - "SaltBridge"  # Salt bridge
+  
+  # Key residues to monitor (EGFR ATP-binding site)
+  key_residues:
+    egfr:
+      - "MET793"
+      - "GLN791"
+      - "LEU844"
+      - "THR854"
+      - "ASP855"
+    egfr_t790m:
+      - "MET793"
+      - "CYS797"
+      - "LEU858"
+  
+  output:
+    save_fingerprints: true
+    save_interaction_matrix: true
+    generate_heatmap: true

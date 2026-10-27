@@ -1,0 +1,105 @@
+{
+  "run_config": {
+    "seed": 42,
+    "sampler": {
+      "cfg": 1.0,
+      "temperature": 0.4,
+      "noise": 0.0,
+      "steps": 50
+    },
+    "targets": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "n_steer": 256,
+    "n_bestN": 512,
+    "keep_bestN": 50,
+    "bestN_target": 0.9,
+    "conditioning": "QED at index 0 (z-scored); for 11-prop the other 10 held at dataset mean (z=0)",
+    "qed_norm": {
+      "mean": 0.6573865803033617,
+      "std": 0.1667400499636428
+    },
+    "qed_zscore_per_target": {
+      "0.3": -2.143375753943272,
+      "0.4": -1.5436398175452395,
+      "0.5": -0.9439038811472074,
+      "0.6": -0.3441679447491753,
+      "0.7": 0.2555679916488568,
+      "0.8": 0.8553039280468896,
+      "0.9": 1.4550398644449216
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "torch": "2.11.0+cu128",
+    "numpy": "2.0.2",
+    "pandas": "2.2.2",
+    "rdkit": "2026.03.3",
+    "cuda": "12.8",
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "git_commit": null
+  },
+  "models": {
+    "QED-only": {
+      "n_props": 1,
+      "d_model": 512,
+      "n_layers": 6,
+      "n_heads": 8,
+      "pm_mult": 4,
+      "T": 100,
+      "max_len": 128,
+      "n_parameters": 30667402,
+      "checkpoint_epoch": 86,
+      "checkpoint_best_val": 1.297910083214378,
+      "cfg_dropout": 0.3
+    },
+    "Multi-prop": {
+      "n_props": 11,
+      "d_model": 512,
+      "n_layers": 6,
+      "n_heads": 8,
+      "pm_mult": 1,
+      "T": 100,
+      "max_len": 128,
+      "n_parameters": 29883028,
+      "checkpoint_epoch": "?",
+      "checkpoint_best_val": "?",
+      "cfg_dropout": 0.1
+    }
+  },
+  "qc": [
+    {
+      "model": "QED-only",
+      "n": 1792,
+      "validity": 1.0,
+      "uniqueness": 0.9375,
+      "novelty": 1.0,
+      "mean_SA": 5.572161694565431,
+      "frac_SA_lt45": 0.072,
+      "internal_diversity": 0.8019392195011905,
+      "bestN_top_qed": 0.8872853106642211,
+      "bestN_median_topK": 0.7457208839292591
+    },
+    {
+      "model": "Multi-prop",
+      "n": 1792,
+      "validity": 1.0,
+      "uniqueness": 0.8141741071428571,
+      "novelty": 1.0,
+      "mean_SA": 4.649067067082502,
+      "frac_SA_lt45": 0.44,
+      "internal_diversity": 0.8476040322588839,
+      "bestN_top_qed": 0.8672985970593666,
+      "bestN_median_topK": 0.3708101882433593
+    }
+  ],
+  "runtime_sec": 111.3,
+  "caveat": "As-trained comparison: checkpoints differ in epochs/MLP-width/cfg-dropout. Qualitative conclusion robust; retrain matched for a bulletproof claim."
+}

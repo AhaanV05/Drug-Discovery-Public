@@ -1,0 +1,164 @@
+# ========================================
+# Environment & Secrets
+# ========================================
+.env
+*.env
+!.env.example
+
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+dd_project/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+*.venv
+
+# ========================================
+# IDEs & Editors
+# ========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ========================================
+# Data Files (exclude large datasets)
+# ========================================
+chembl_curated_out/
+datasets/
+*.parquet
+*.csv
+*.smi
+*.tsv
+*.pickle
+*.pkl
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.sqlite3
+
+# ChEMBL database files (large downloads)
+chembl_34/
+chembl_*/
+*.tar.gz
+*.tar
+*.zip
+*.aria2
+
+# But keep example/small data
+!example_data/
+!test_data/
+!sample_data/
+
+# ========================================
+# Jupyter Notebooks
+# ========================================
+.ipynb_checkpoints/
+# *.ipynb
+!notebooks/examples/*.ipynb
+
+# ========================================
+# Model & Training Artifacts
+# ========================================
+models/
+saved_models/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+wandb/
+lightning_logs/
+tensorboard_logs/
+runs/
+experiments/
+
+# ========================================
+# Logs & Temp Files
+# ========================================
+*.log
+logs/
+tmp/
+temp/
+cache/
+.cache/
+
+# ========================================
+# OS & System Files
+# ========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ========================================
+# Testing
+# ========================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ========================================
+# Documentation
+# ========================================
+docs/_build/
+site/
+
+# ========================================
+# Project Specific
+# ========================================
+scratch/
+old/
+backup/
+*_old.py
+*_backup.py
+*.bak
+
+# Notebook timestamped backups (e.g. *.BAK_20260614_004953.ipynb)
+*.BAK_*.ipynb
+
+
+# Notebook backups folder
+backups/

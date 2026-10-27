@@ -1,0 +1,101 @@
+# Reinforcement Learning Configuration (PPO)
+
+ppo:
+  # Algorithm hyperparameters
+  clip_epsilon: 0.2  # PPO clipping parameter
+  value_coef: 0.5  # Value loss coefficient
+  entropy_coef: 0.01  # Entropy regularization
+  max_grad_norm: 0.5  # Gradient clipping
+  
+  # GAE (Generalized Advantage Estimation)
+  gamma: 0.99  # Discount factor
+  gae_lambda: 0.95  # GAE lambda
+  
+  # Training
+  num_episodes: 10000
+  episode_length: 256  # Molecules per episode
+  batch_size: 128
+  num_epochs: 10  # Optimization epochs per batch
+  learning_rate: 0.0003
+  
+  # Networks
+  actor_hidden_dims: [512, 256]
+  critic_hidden_dims: [512, 256]
+  activation: "relu"
+  
+# Reward function configuration
+reward:
+  # Weights (must sum to 1.0)
+  weights:
+    qed: 0.30  # Drug-likeness
+    sa_score: 0.20  # Synthetic accessibility
+    binding: 0.30  # Binding affinity
+    toxicity: 0.10  # ADMET toxicity
+    novelty: 0.10  # Chemical novelty
+  
+  # QED (Quantitative Estimate of Drug-likeness)
+  qed:
+    target_min: 0.5
+    target_max: 1.0
+    scaling: "linear"
+  
+  # SA Score (Synthetic Accessibility, 1-10)
+  sa_score:
+    target_min: 1.0
+    target_max: 3.0
+    invert: true  # Lower is better
+    scaling: "linear"
+  
+  # Binding affinity
+  binding:
+    use_pchembl: true  # Use ChEMBL pChEMBL values during training
+    use_docking: false  # Use docking scores (Week 5+)
+    target_min: -15.0  # kcal/mol (for docking)
+    target_max: -8.0
+    scaling: "linear"
+  
+  # Toxicity (ADMET)
+  toxicity:
+    use_admet_predictions: false  # Set to true if ADMET API available
+    properties:
+      - "hERG_inhibition"
+      - "AMES_toxicity"
+      - "hepatotoxicity"
+    penalty_per_alert: 0.3
+  
+  # Novelty (Tanimoto distance to training set)
+  novelty:
+    fingerprint: "morgan"
+    radius: 2
+    nbits: 2048
+    target_min: 0.5  # Minimum Tanimoto distance
+    target_max: 1.0
+    scaling: "linear"
+
+# Training environment
+environment:
+  device: "cuda"
+  num_workers: 4
+  parallel_rewards: true  # Compute rewards in parallel
+  
+# Checkpointing
+checkpointing:
+  save_dir: "checkpoints/rl/"
+  save_interval: 100  # episodes
+  keep_n_checkpoints: 5
+  save_best_only: true
+  metric: "mean_reward"
+  
+# Logging
+logging:
+  log_dir: "logs/rl/"
+  tensorboard: true
+  wandb: false
+  log_interval: 10  # episodes
+  plot_reward_curves: true
+  
+# Early stopping
+early_stopping:
+  enabled: true
+  patience: 500  # episodes
+  min_delta: 0.01  # Minimum improvement

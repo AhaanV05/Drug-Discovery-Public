@@ -1,0 +1,76 @@
+# Model Configuration for Diffusion and VAE
+
+diffusion:
+  # Architecture
+  model_type: "DDPM"  # Denoising Diffusion Probabilistic Model
+  hidden_dim: 512
+  num_layers: 6
+  num_heads: 8  # For transformer-based architecture
+  dropout: 0.1
+  
+  # Diffusion parameters
+  timesteps: 1000
+  beta_schedule: "cosine"  # or "linear"
+  beta_start: 0.0001
+  beta_end: 0.02
+  
+  # Training
+  batch_size: 128
+  learning_rate: 0.0001
+  epochs: 100
+  early_stopping_patience: 10
+  validation_interval: 5
+  
+  # Data
+  max_seq_length: 128  # Maximum SMILES length
+  vocab_size: 50  # SMILES vocabulary size
+  
+  # Generation
+  sampling_steps: 1000
+  num_samples: 10000
+  temperature: 1.0
+
+vae:
+  # Architecture
+  encoder_type: "GRU"
+  decoder_type: "GRU"
+  hidden_dim: 512
+  latent_dim: 512
+  num_layers: 3
+  dropout: 0.2
+  
+  # Training
+  batch_size: 256
+  learning_rate: 0.0005
+  epochs: 80
+  kl_beta: 1.0  # KL divergence weight
+  kl_beta_annealing: true
+  kl_beta_start: 0.0
+  kl_beta_end: 1.0
+  kl_anneal_epochs: 10
+  
+  # Generation
+  num_samples: 10000
+  sampling_strategy: "random"  # or "interpolation"
+
+# Training environment
+environment:
+  device: "cuda"  # or "cpu"
+  mixed_precision: true  # FP16 training
+  num_workers: 4
+  pin_memory: true
+  
+# Checkpointing
+checkpointing:
+  save_dir: "checkpoints/"
+  save_interval: 5  # epochs
+  keep_n_checkpoints: 3
+  save_best_only: true
+  metric: "val_loss"  # or "validity", "uniqueness"
+  
+# Logging
+logging:
+  log_dir: "logs/"
+  tensorboard: true
+  wandb: false  # Set to true if using Weights & Biases
+  log_interval: 100  # batches
