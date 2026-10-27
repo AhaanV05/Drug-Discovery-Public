@@ -1,0 +1,2 @@
+model,validity_mean,validity_std,uniqueness_mean,uniqueness_std,novelty_mean,novelty_std,meanQED_mean,meanQED_std,meanSA_mean,meanSA_std,frac_SA_lt45_mean,frac_SA_lt45_std,meanMW_mean,meanMW_std,meanHA_mean,meanHA_std,internal_diversity_mean,internal_diversity_std
+Stage 1 (QED-only),1.0,0.0,0.998046875,0.0,0.99765625,0.002139541240254545,0.6916803507937158,0.006112366064771709,2.215800351757655,0.030519461957510118,0.993359375,0.004279082480509104,333.6307882812501,1.041745408866325,24.143359375,0.063116466587509,0.8156744446875885,0.005399501903842793

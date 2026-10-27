@@ -11,7 +11,6 @@ from rdkit import Chem
 from tqdm import tqdm
 import os
 import json
-from pathlib import Path
 import torch
 from torch.utils.data import Dataset, DataLoader
 
@@ -20,10 +19,8 @@ from torch.utils.data import Dataset, DataLoader
 # Configuration
 # ============================================================================
 
-# Paths resolve to <repo>/notebooks/data by default; override via env vars if needed.
-DATA_DIR = Path(__file__).resolve().parent.parent / "notebooks" / "data"
-INPUT_FILE = os.environ.get("INPUT_FILE", str(DATA_DIR / "molecules_200k_with_bioactivity_21pct_coverage.csv"))
-OUTPUT_DIR = os.environ.get("OUTPUT_DIR", str(DATA_DIR))
+INPUT_FILE = r"C:\Users\ahaan\CODE\Research Papers\Drug Discovery\Project\notebooks\data\molecules_200k_with_bioactivity_21pct_coverage.csv"
+OUTPUT_DIR = r"C:\Users\ahaan\CODE\Research Papers\Drug Discovery\Project\notebooks\data"
 
 CLEAN_OUTPUT_FILE = os.path.join(OUTPUT_DIR, "molecules_200k_selfies_clean.csv")
 FAILED_SMILES_FILE = os.path.join(OUTPUT_DIR, "failed_smiles.csv")

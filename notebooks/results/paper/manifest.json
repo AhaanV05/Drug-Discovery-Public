@@ -1,0 +1,106 @@
+{
+ "seed": 42,
+ "seeds": [
+  42,
+  43,
+  44,
+  45,
+  46
+ ],
+ "n_seeds": 5,
+ "sampler": {
+  "cfg": 1.0,
+  "temperature": 0.4,
+  "noise": 0.5,
+  "steps": 50,
+  "min_len": 12,
+  "pad_penalty": 1.0
+ },
+ "n_steer": 256,
+ "n_joint": 512,
+ "n_qc": 512,
+ "qed_targets": [
+  0.3,
+  0.4,
+  0.5,
+  0.6,
+  0.7,
+  0.8,
+  0.9
+ ],
+ "mw_targets": [
+  250,
+  300,
+  350,
+  400,
+  450
+ ],
+ "joint_target": {
+  "qed": 0.8,
+  "mw": 350.0,
+  "sa_score": 2.5
+ },
+ "conditioning_props": [
+  "qed",
+  "mw",
+  "hbd",
+  "hba",
+  "psa",
+  "num_rings",
+  "sa_score",
+  "hERG",
+  "pchembl_mean"
+ ],
+ "arms": [
+  "Stage 1 (QED-only)",
+  "Stage 2 (9-property)",
+  "Stage 3 (RL)",
+  "Stage 4 (filtered)"
+ ],
+ "folders": {
+  "Stage 1 (QED-only)": "stage1_qedonly",
+  "Stage 2 (9-property)": "stage2_multiprop",
+  "Stage 3 (RL)": "stage3_rl",
+  "Stage 4 (filtered)": "stage4_filtered"
+ },
+ "models": {
+  "Stage 1 (QED-only)": {
+   "tag": "Stage 1 (QED-only)",
+   "folder": "stage1_qedonly",
+   "path": "stage1_qedonly/checkpoints/best.pt",
+   "n_props": 1,
+   "epoch": 46,
+   "val": 1.4755714120484247,
+   "n_parameters": 30667402
+  },
+  "Stage 2 (9-property)": {
+   "tag": "Stage 2 (9-property)",
+   "folder": "stage2_multiprop",
+   "path": "stage2_multiprop/checkpoints/best.pt",
+   "n_props": 9,
+   "epoch": 47,
+   "val": 1.3181726188895577,
+   "n_parameters": 30683794
+  },
+  "Stage 3 (RL)": {
+   "tag": "Stage 3 (RL)",
+   "folder": "stage3_rl",
+   "path": "stage3_rl/checkpoints/best.pt",
+   "n_props": 9,
+   "epoch": 1000,
+   "val": 1.395676704302226,
+   "n_parameters": 30683794
+  },
+  "Stage 4 (filtered)": {
+   "tag": "Stage 4 (filtered)",
+   "folder": "stage4_filtered",
+   "path": "stage4_filtered/checkpoints/best.pt",
+   "n_props": 1,
+   "epoch": 55,
+   "val": 1.4851841811694,
+   "n_parameters": 30667402
+  }
+ },
+ "layout": "per-stage folders + comparison/, written from one measurement pass",
+ "runtime_sec": 1551.8
+}

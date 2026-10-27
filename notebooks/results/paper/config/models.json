@@ -1,0 +1,38 @@
+{
+ "Stage 1 (QED-only)": {
+  "tag": "Stage 1 (QED-only)",
+  "folder": "stage1_qedonly",
+  "path": "stage1_qedonly/checkpoints/best.pt",
+  "n_props": 1,
+  "epoch": 46,
+  "val": 1.4755714120484247,
+  "n_parameters": 30667402
+ },
+ "Stage 2 (9-property)": {
+  "tag": "Stage 2 (9-property)",
+  "folder": "stage2_multiprop",
+  "path": "stage2_multiprop/checkpoints/best.pt",
+  "n_props": 9,
+  "epoch": 47,
+  "val": 1.3181726188895577,
+  "n_parameters": 30683794
+ },
+ "Stage 3 (RL)": {
+  "tag": "Stage 3 (RL)",
+  "folder": "stage3_rl",
+  "path": "stage3_rl/checkpoints/best.pt",
+  "n_props": 9,
+  "epoch": 1000,
+  "val": 1.395676704302226,
+  "n_parameters": 30683794
+ },
+ "Stage 4 (filtered)": {
+  "tag": "Stage 4 (filtered)",
+  "folder": "stage4_filtered",
+  "path": "stage4_filtered/checkpoints/best.pt",
+  "n_props": 1,
+  "epoch": 55,
+  "val": 1.4851841811694,
+  "n_parameters": 30667402
+ }
+}

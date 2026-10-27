@@ -1,0 +1,13 @@
+qed,heavy_atoms,smiles,source
+0.895,25,C[CH]c1c(C2C=CC3=C(C(C)(C)O)N=NC3C2C(N)=O)c2ccc1o2,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.869,22,CC1CC=CC=C(CO)C=C2OC(=CN(C)C3=CC3)C=CN21,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.860,23,Cc1oc(N)nc1C[C@@H]1OC2=CC(=O)N3CC=C2C=NC1C=N3,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.848,27,CC=CC1=C(C)C=Cc2cccnc2[C](C)C[CH]C[C@@H](N(C)C(N)=O)OC1,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.830,24,CC1=C(C)N=C(C=CC2=Cc3oc(O)c(c3N=CC(C)O)C2)OC1,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.830,20,CC1(C)CCC(N)(CCC2=CC=CC(N)=CC=CC2)O1,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.811,28,CCC=CC=C1CN(C(=O)C2(C)Cn3c2cc(C)cc3=O)CC2CC1=NC=N2,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.805,25,CC=CNC(=O)CC1=C(C2CC(C3=NC(O)=C(C)OC3)=CC2=O)C=C1,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.802,26,CCc1c(C2=CC3=NCC(C)N(C=CC(N)=N3)CCC2)ccc(C)c1N,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.800,25,Cc1ccc(C(=O)C2N=CC=CC=CCC(C)CCC2(C)O)cc1C,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.784,29,CC(C1=CCC1)=C1CCC(O)(C2C(=O)C3=C(C4=NC4)OC3N=CCCC2(C)C)C1,multi-prop CondDiT ep40 best-of-N cfg0.6
+0.774,23,Cc1cc(O)c2c(c1)C=C1C=C1C=C(N)C(=O)N(C)CCC[CH]2,multi-prop CondDiT ep40 best-of-N cfg0.6

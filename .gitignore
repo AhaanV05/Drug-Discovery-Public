@@ -82,6 +82,10 @@ chembl_*/
 !test_data/
 !sample_data/
 
+# Results packages ARE the paper's evidence -- the *.csv rule above would silently
+# drop every number and commit only the figures. Keep them (small, text, reviewable).
+!notebooks/results/**/*.csv
+
 # ========================================
 # Jupyter Notebooks
 # ========================================
@@ -162,3 +166,10 @@ backup/
 
 # Notebook backups folder
 backups/
+
+# ========================================
+# Local assistant config (contains machine-specific paths)
+# ========================================
+Claude.md
+CLAUDE.md
+.claudeignore

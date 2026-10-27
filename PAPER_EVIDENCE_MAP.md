@@ -1,0 +1,204 @@
+# Paper evidence map
+
+**The paper is a comparative study:** four strategies for controlling the properties of generated
+molecules, trained on the same 200k ChEMBL dataset and judged head-to-head against a
+filtered-unconditional baseline.
+
+**Purpose of this document:** nothing enters the manuscript without a committed file behind it. Each
+claim below is mapped to its artifact.
+
+**Status: all four arms trained and evaluated.** One measurement pass, 5 seeds, one operating point.
+
+---
+
+## The arms
+
+| Stage | Strategy | Mechanism | Status |
+|---|---|---|---|
+| **1** | conditional diffusion, 1 property (QED) | conditioning | ✅ trained (ep46) |
+| **2** | conditional diffusion, 9 properties + per-property dropout | conditioning | ✅ trained (ep47) |
+| **3** | RL fine-tune of the Stage-2 policy | weight optimisation | ✅ trained (1000 steps, β=0.05) |
+| **4** | filtered-unconditional, QED > 0.5 subset | none — train on good data | ✅ trained (ep55) |
+
+**The research question:** given a target property vector, which strategy produces molecules whose
+*measured* properties match the request — and does any of it beat simply training on good molecules?
+
+---
+
+## The answer
+
+| | steering range | joint target, top-50 (lower better) | uncond. meanQED |
+|---|---:|---:|---:|
+| **Stage 1** (1 prop) | **0.682 ± 0.011** | 0.247 ± 0.012 | 0.692 |
+| **Stage 2** (9 prop) | 0.555 ± 0.004 | **0.134 ± 0.009** | 0.712 |
+| **Stage 3** (RL) | 0.546 ± 0.005 | 0.140 ± 0.005 | 0.687 |
+| **Stage 4** (filtered) | 0.577 ± 0.010 ⚠️ | 1.304 ± 0.042 | **0.772** |
+
+1. **Conditioning width is matched to task width.** Narrow conditioning steers its single axis harder
+   (Stage 1, complete separation over 5 seeds, 11.2× pooled σ, exact one-tailed rank p = 0.0040); broad
+   conditioning is required to *express* a multi-property request at all (Stage 2, 7.6× pooled σ on
+   top-50). Neither is better; they answer different requests.
+
+2. **Training on good data raises the floor and buys no control.** Stage 4 has the **best unconditional
+   QED of any arm** (0.772) and is **~10× worse on the joint target** (1.304 vs 0.134–0.247), landing at
+   MW 219 against a request of 350. The skeptic's control was worth running and it lost decisively.
+
+3. **RL did not add control beyond conditioning — a null result.** Stage 3 vs Stage 2: steering range
+   1.36× pooled σ, joint top-50 0.55× pooled σ, **neither separates across seeds**. In-training reward
+   did improve (−0.664 → −0.576 over the 1000-step run; training-log value, not in a committed artifact) and cost internal diversity (0.806 → 0.789), so the weights moved and
+   paid a price the harness could not detect as control.
+
+---
+
+## ⚠️ Two results that must not be reported without their caveat
+
+### 1. Stage 4's steering range is an artifact, not steering
+
+It reads **0.577**, close to Stage 2's 0.555 — but it is the spread of a **non-monotonic** response, not
+control. The full sweep:
+
+| requested QED | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |
+|---|---|---|---|---|---|---|---|
+| Stage 1 | 0.160 | 0.366 | 0.532 | 0.635 | 0.738 | 0.811 | 0.842 |
+| Stage 2 | 0.270 | 0.418 | 0.573 | 0.691 | 0.740 | 0.782 | 0.825 |
+| Stage 3 | 0.295 | 0.391 | 0.512 | 0.643 | 0.731 | 0.792 | 0.840 |
+| **Stage 4** | 0.198 | 0.307 | 0.423 | **0.769** | **0.774** | **0.465** | **0.430** |
+
+Stages 1–3 are monotonic. Stage 4 spikes at 0.6–0.7 and collapses at 0.8–0.9. Stage 4 was trained
+always-null, so the harness is feeding it **out-of-distribution conditioning input**; its response is
+arbitrary. **Its non-response is the measurement.** A reader skimming the steering-range column alone
+would conclude the unconditional baseline nearly matches Stage 2 — the exact opposite of the finding.
+Report the curve, or report the range with this caveat attached. Never the range alone.
+
+### 2. Stage 3's null is bounded by its hyperparameters
+
+The supported claim is: *at `lr=1e-5` for 1000 steps with a KL anchor, RL did not beat conditioning
+under this harness.* The stronger claim — *RL cannot help* — is **not supported**. The KL leash and step
+budget were both deliberately conservative.
+
+---
+
+## ⚠️ Framing rules
+
+1. **Do not claim the field is crowded.** The literature review found few directly comparable papers.
+   That is a strength — the framing is that this comparison has not been made. Write Related Work
+   against what the review actually found; do not assert background claims that have not been checked.
+
+2. **Internal engineering work is not a finding.** Bugs found and fixed during development, tuning
+   iterations, and superseded training runs belong in the repository and the lab notebook. They are not
+   results, not contributions, and not the frame. The manuscript reports what the final models do.
+
+3. **There are no "before" and "after" arms.** Stage 1, Stage 2, Stage 3, Stage 4. Every number comes
+   from the current models under one harness.
+
+---
+
+## Claim → artifact
+
+Generated by `notebooks/generate_results.py` (notebook CELL 30) into `notebooks/results/paper/`.
+Everything comparative is 5 seeds, mean ± s.d. Runtime 1551.8 s on an A100.
+
+### Layout
+
+```
+paper/
+  comparison/        csv · figures · tables      <- all arms together
+  stage1_qedonly/    csv · figures · tables · molecules
+  stage2_multiprop/ · stage3_rl/ · stage4_filtered/
+  config/ · manifest.json
+```
+
+**One measurement pass, two views.** Per-stage outputs are slices of the same generated molecules that
+produce the comparison tables, so a per-stage number cannot disagree with the comparison. Cite the
+**`comparison/`** files for anything that contrasts arms; cite a stage folder only when describing that
+arm on its own.
+
+### Method / implementation
+
+| claim | artifact |
+|---|---|
+| architecture, parameter counts, checkpoint epochs per arm | `config/models.json` |
+| conditioning set, dataset moments | `config/norm_stats.json` |
+| operating point, seeds, sample sizes, targets, arms | `manifest.json` |
+| software versions, GPU | `config/environment.json` |
+| Stage 3's β frontier, and which β was promoted | `stage3_rl/` on Drive: `beta_frontier.csv` · `beta_frontier.png` · `promoted.json` ⚠️ **not in the repo** |
+
+### Results — inter-arm claims (cite `comparison/`)
+
+| claim | artifact |
+|---|---|
+| QED targeting: achieved mean per request, all arms | `comparison/csv/qed_targeting_summary.csv` · `tables/qed_targeting.md` · `figures/fig1_qed_targeting_all_arms.png` |
+| steering range (max − min achieved QED) | `comparison/csv/steering_range.csv` · `tables/steering_range.md` · `figures/fig2_steering_range.png` |
+| molecular-weight targeting and absolute error | `comparison/csv/mw_targeting_summary.csv` · `tables/mw_targeting.md` · `figures/fig3_mw_targeting.png` |
+| multi-objective control on the joint target | `comparison/csv/joint_target_summary.csv` · `tables/joint_target.md` · `figures/fig4_joint_target.png` |
+| validity, uniqueness, novelty, SA, internal diversity | `comparison/csv/qc_summary.csv` · `tables/qc.md` |
+| sampler behaviour (temperature × noise, padding penalty) | `comparison/csv/sampler_frontier.csv` · `csv/sampler_pad_penalty.csv` · `figures/fig5_sampler_frontier.png` |
+| per-seed values behind every mean | `comparison/csv/*_raw.csv` |
+
+### Results — per-arm claims (cite the stage folder, e.g. `stage2_multiprop/`)
+
+| claim | artifact |
+|---|---|
+| this arm's headline numbers, expressible properties, params, epoch | `tables/summary.md` |
+| its targeting curve with error bands | `figures/fig1_qed_targeting.png` · `csv/qed_targeting_summary.csv` |
+| **spread** of achieved QED per request, not just the mean | `figures/fig2_qed_distribution.png` |
+| its ranked candidate pool on the joint target | `figures/fig3_joint_ranked.png` |
+| its molecular-weight targeting *(if expressible)* | `figures/fig4_mw_targeting.png` · `tables/mw_targeting.md` |
+| **example molecules for the paper** | `molecules/joint_target_top50.csv` · `qed_targeting_molecules.csv` · `unconditional_sample.csv` |
+
+---
+
+## ❌ Not supported by any artifact — do not write these
+
+1. **Anything about `hERG` or `pchembl_mean`.** Trained into Stages 2 and 3, but ADMETlab values exist
+   only for training molecules and there is no live predictor, so they cannot be scored on novel
+   structures. All evaluation uses `qed`, `mw`, `sa_score`. A stated limitation, not an oversight.
+2. **Architecture-selection results** (the earlier VAE and high-capacity conditional models). These come
+   from training logs, not the results package, and are single-seed. If they appear, label them
+   preliminary — or re-run them through the harness.
+3. **"RL cannot improve controllable generation."** See caveat 2 above — the null is bounded by one
+   learning rate, one step budget and one KL schedule.
+4. **Stage 4 as a partially-steerable model.** See caveat 1.
+
+---
+
+## Reporting rules
+
+1. **Report top-50 on the joint target, never top-1** — top-1's seed-to-seed CV approaches 90% and does
+   not separate arms.
+2. **Every arm goes through the same harness, at the same operating point, over the same seeds.**
+   Adding an arm evaluated differently voids the comparison.
+3. **Arms receive only the properties they can express.** Stages 1 and 4 have no MW or SA input, so they
+   get the QED component of the joint target only. State this explicitly — it is the mechanism behind
+   the result, not a confound.
+4. **`cfg=1.0` means guidance amplification is off.** All reported control is from the raw conditional.
+   Worth stating: it is a conservative setting and an unexplored axis.
+5. **Report Stage 3's β frontier, not only the promoted point.** β was swept over
+   {0.01, 0.05, 0.15, 0.50}; the promoted run (β=0.05) has the best reward *and the worst internal
+   diversity of the four*. The frontier is the honest result.
+
+---
+
+## Suggested section mapping
+
+| section | source |
+|---|---|
+| Introduction | the research question above; Stage 4 as the control |
+| Related Work | **the literature review — write against what it found** |
+| Method | CELL 14 (architecture) · CELL 17 (sampler) · CELL 22–24 (conditioning + dropout) · CELL 32–34 (Stages 4 and 3) |
+| Implementation | `paper/config/` + `manifest.json` |
+| Results | the claim tables above — `comparison/` for contrasts, stage folders for per-arm detail |
+| Discussion | conditioning width as a design decision; why weight optimisation did not add over conditioning; why the filtered baseline raises the floor but cannot target |
+| Limitations | hERG/pchembl unevaluable · Stage 3's null bounded by its hyperparameters · Stage 4's OOD steering artifact · single-seed architecture-selection results · one dataset, one representation |
+
+---
+
+## Status of `paper/main.tex`
+
+✅ **Rewritten 2026-08-07** from this map, against the four-arm package. The earlier draft — written
+around internal engineering work, and asserting an unchecked background claim about the literature — is
+void and was replaced wholesale.
+
+---
+
+Artifacts: `notebooks/results/` — see its `README.md` for which packages are live.

@@ -1,0 +1,2 @@
+model,validity_mean,validity_std,uniqueness_mean,uniqueness_std,novelty_mean,novelty_std,meanQED_mean,meanQED_std,meanSA_mean,meanSA_std,frac_SA_lt45_mean,frac_SA_lt45_std,meanMW_mean,meanMW_std,meanHA_mean,meanHA_std,internal_diversity_mean,internal_diversity_std
+Stage 4 (filtered),1.0,0.0,0.99765625,0.0016341016143243696,0.99375,0.004453810254293513,0.7720291926686572,0.004662833717267852,2.251013639229318,0.023896877630626426,0.997265625,0.0022269051271467635,310.555362890625,1.9124446780354702,22.6125,0.14161570511271088,0.8099814233220355,0.003031513705423351

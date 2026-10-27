@@ -1,0 +1,2 @@
+model,validity_mean,validity_std,uniqueness_mean,uniqueness_std,novelty_mean,novelty_std,meanQED_mean,meanQED_std,meanSA_mean,meanSA_std,frac_SA_lt45_mean,frac_SA_lt45_std,meanMW_mean,meanMW_std,meanHA_mean,meanHA_std,internal_diversity_mean,internal_diversity_std
+Stage 3 (RL),1.0,0.0,0.994921875,0.002962060720332635,0.996875,0.004050086201821811,0.6866448960354682,0.009634044548701351,2.2112967396141734,0.024413861142706144,0.996484375,0.004002715142952956,328.22803437500005,3.422844568838081,23.603125,0.24268865109862484,0.7889433057893354,0.003004088295458932
